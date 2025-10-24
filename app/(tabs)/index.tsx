@@ -1,98 +1,185 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import {
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export default function FarmerDashboard() {
+  const router = useRouter();
 
-export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <ScrollView style={styles.container}>
+      <Text style={styles.title}>Farmer Dashboard</Text>
+      
+      {/* Key Metrics */}
+      <View style={styles.metricsContainer}>
+        <View style={styles.metricCard}>
+          <Text style={styles.metricValue}>12</Text>
+          <Text style={styles.metricLabel}>Active Jobs</Text>
+          <Text style={styles.metricChange}>↑ 5% this week</Text>
+        </View>
+        
+        <View style={styles.metricCard}>
+          <Text style={styles.metricValue}>38</Text>
+          <Text style={styles.metricLabel}>New Applicants</Text>
+          <Text style={styles.metricChange}>↑ 15% this week</Text>
+        </View>
+      </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      {/* Quick Actions */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Quick Actions</Text>
+        <View style={styles.actionsGrid}>
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={() => router.push('/src/Farmer/create-harvest-job')}
+          >
+            <Text style={styles.actionText}>Create Job</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={() => router.push('/src/Farmer/cropRecovery')}
+          >
+            <Text style={styles.actionText}>Crop Recovery</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={() => router.push('/src/Farmer/hiringPipeline')}
+          >
+            <Text style={styles.actionText}>Hiring Pipeline</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity 
+            style={styles.actionButton}
+            onPress={() => router.push('/src/Farmer/candidateMatches')}
+          >
+            <Text style={styles.actionText}>Candidates</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Latest Updates */}
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>Latest Updates</Text>
+        <View style={styles.updateCard}>
+          <Text style={styles.updateTitle}>Irrigation Schedule Optimized</Text>
+          <Text style={styles.updateDescription}>
+            Your AI advisor recommends adjusting your irrigation schedule for maize
+          </Text>
+          <Text style={styles.updateTime}>2 hours ago</Text>
+        </View>
+        
+        <View style={styles.updateCard}>
+          <Text style={styles.updateTitle}>New Crop Recovery Guide Available</Text>
+          <Text style={styles.updateDescription}>
+            Check out the latest guide on recovering from fungal infections
+          </Text>
+          <Text style={styles.updateTime}>Yesterday</Text>
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#f5fff7',
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#2e7d32',
+    marginBottom: 20,
+  },
+  metricsContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  metricCard: {
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 12,
+    flex: 0.48,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  metricValue: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#2e7d32',
+  },
+  metricLabel: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 4,
+  },
+  metricChange: {
+    fontSize: 12,
+    color: '#4caf50',
+    marginTop: 2,
+  },
+  section: {
+    marginBottom: 20,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2e7d32',
+    marginBottom: 12,
+  },
+  actionsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  actionButton: {
+    backgroundColor: '#2e7d32',
+    padding: 16,
+    borderRadius: 8,
+    width: '48%',
+    marginBottom: 10,
     alignItems: 'center',
-    gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  actionText: {
+    color: '#fff',
+    fontWeight: '600',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  updateCard: {
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  updateTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  updateDescription: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 4,
+  },
+  updateTime: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 4,
   },
 });
