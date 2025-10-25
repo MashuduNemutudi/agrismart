@@ -1,20 +1,30 @@
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import {
+  Image,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 export default function FarmerDashboard() {
   const router = useRouter();
 
   return (
     <ScrollView style={styles.container}>
+      {/* Header with Profile Icon */}
+      <View style={styles.topHeader}>
+        <Text style={styles.topHeaderTitle}>Farmer Dashboard</Text>
+        <TouchableOpacity 
+          style={styles.profileIcon}
+          onPress={() => router.push('/src/Farmer/farmerProfile')}
+        >
+          <Ionicons name="person" size={24} color="#2e7d32" />
+        </TouchableOpacity>
+      </View>
+
       {/* Header Banner */}
       <View style={styles.headerContainer}>
         <Image
@@ -50,21 +60,9 @@ export default function FarmerDashboard() {
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>⚡ Quick Actions</Text>
         <View style={styles.actionsGrid}>
-          <TouchableOpacity
-            style={[styles.actionButton, { backgroundColor: '#4caf50' }]}
-            onPress={() => router.push('/src/Farmer/create-harvest-job')}
-          >
-            <Ionicons name="add-circle-outline" size={24} color="#fff" />
-            <Text style={styles.actionText}>Create Job</Text>
-          </TouchableOpacity>
+          
 
-          <TouchableOpacity
-            style={[styles.actionButton, { backgroundColor: '#ff9800' }]}
-            onPress={() => router.push('/src/Farmer/cropRecovery')}
-          >
-            <Ionicons name="medkit-outline" size={24} color="#fff" />
-            <Text style={styles.actionText}>Crop Recovery</Text>
-          </TouchableOpacity>
+          
 
           <TouchableOpacity
             style={[styles.actionButton, { backgroundColor: '#2196f3' }]}
@@ -80,6 +78,24 @@ export default function FarmerDashboard() {
           >
             <Ionicons name="checkmark-done-outline" size={24} color="#fff" />
             <Text style={styles.actionText}>Candidates</Text>
+          </TouchableOpacity>
+
+          {/* Resources Button */}
+          <TouchableOpacity
+            style={[styles.actionButton, { backgroundColor: '#607d8b' }]}
+            onPress={() => router.push('/src/Farmer/resourceAndFundingPortal')}
+          >
+            <Ionicons name="document-text-outline" size={24} color="#fff" />
+            <Text style={styles.actionText}>Resources</Text>
+          </TouchableOpacity>
+
+          {/* Weather Button */}
+          <TouchableOpacity
+            style={[styles.actionButton, { backgroundColor: '#00bcd4' }]}
+            onPress={() => router.push('/src/Farmer/WeatherUpdates')}
+          >
+            <Ionicons name="partly-sunny-outline" size={24} color="#fff" />
+            <Text style={styles.actionText}>Weather</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -134,6 +150,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e8f5e9',
+  },
+  topHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 50,
+    paddingBottom: 10,
+    backgroundColor: '#e8f5e9',
+  },
+  topHeaderTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#2e7d32',
+  },
+  profileIcon: {
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: '#f1f8e9',
   },
   headerContainer: {
     height: 180,

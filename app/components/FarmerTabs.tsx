@@ -1,12 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, Modal, Text } from 'react-native';
+import { useState } from 'react';
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // Import your farmer screens
 import FarmerDashboard from '../src/Farmer/farmerDashboard';
-import FarmerProfile from '../src/Farmer/farmerProfile';
-import HarvestCalendar from '../src/Farmer/harvestCalander';
+//import HarvestCalendar from '../src/Farmer/harvestCalander';
 import WeatherAlerts from '../src/Farmer/weatherAlerts';
 
 const Tab = createBottomTabNavigator();
@@ -56,19 +55,10 @@ export default function FarmerTabs() {
         />
         <Tab.Screen
           name="Calendar"
-          component={HarvestCalendar}
+          component={WeatherAlerts}
           options={{ tabBarIcon: ({ color, size }) => <Ionicons name="calendar" size={size} color={color} /> }}
         />
-        <Tab.Screen
-          name="Resources"
-          component={FarmerProfile}
-          options={{ tabBarIcon: ({ color, size }) => <Ionicons name="document-text" size={size} color={color} /> }}
-        />
-        <Tab.Screen
-          name="Profile"
-          component={FarmerProfile}
-          options={{ tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} /> }}
-        />
+        
       </Tab.Navigator>
 
       {/* Floating ChatBot Button */}
