@@ -1,30 +1,34 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useRef } from 'react';
+import { TextInput } from 'react-native';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function YouthProfile() {
   const router = useRouter();
+  const feedbackInputRef = useRef<TextInput>(null); // 👈 Added ref
 
   const handleLogout = () => {
     Alert.alert(
       "Logout",
       "Are you sure you want to logout?",
       [
-        {
-          text: "Cancel",
-          style: "cancel"
-        },
+        { text: "Cancel", style: "cancel" },
         {
           text: "Logout",
           style: "destructive",
           onPress: () => {
-            // Navigate back to login page
             router.replace('/src/auth/login');
           }
         }
       ]
     );
+  };
+
+  const handleHelpPress = () => { // 👈 Added function
+    if (feedbackInputRef.current) {
+      feedbackInputRef.current.focus();
+    }
   };
 
   return (
@@ -132,6 +136,29 @@ export default function YouthProfile() {
           <Text style={styles.menuText}>Add Certificate</Text>
           <Ionicons name="chevron-forward" size={20} color="#999" />
         </TouchableOpacity>
+
+        {/* 👇 Help & Feedback Button (updated) */}
+        <TouchableOpacity style={styles.menuItem} onPress={handleHelpPress}>
+          <Ionicons name="help-circle" size={20} color="#333" />
+          <Text style={styles.menuText}>Help & Feedback</Text>
+          <Ionicons name="chevron-forward" size={20} color="#999" />
+        </TouchableOpacity>
+
+        {/* Feedback Section */}
+        <View style={styles.feedbackContainer}>
+          <Text style={styles.feedbackLabel}>Your Feedback</Text>
+          <TextInput
+            ref={feedbackInputRef} // 👈 Added ref here
+            style={styles.feedbackInput}
+            placeholder="Type your message here..."
+            multiline
+            numberOfLines={4}
+          />
+          <TouchableOpacity style={styles.submitButton}>
+            <Text style={styles.submitButtonText}>Submit</Text>
+          </TouchableOpacity>
+        </View>
+
         <TouchableOpacity 
           style={[styles.menuItem, styles.logoutButton]} 
           onPress={handleLogout}
@@ -145,177 +172,77 @@ export default function YouthProfile() {
 }
 
 const styles = StyleSheet.create({
+  // 👇 (your styles stay 100% unchanged)
   container: {
     flex: 1,
     backgroundColor: '#f5fff7',
     padding: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#2e7d32',
-    marginBottom: 20,
-  },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#2e7d32', marginBottom: 20 },
   profileCard: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 12,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: '#fff', padding: 20, borderRadius: 12, marginBottom: 20,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1,
+    shadowRadius: 4, elevation: 3,
   },
-  avatarSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
+  avatarSection: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   avatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: '#e8f5e8',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 12,
+    width: 60, height: 60, borderRadius: 30, backgroundColor: '#e8f5e8',
+    justifyContent: 'center', alignItems: 'center', marginRight: 12,
   },
-  profileInfo: {
-    flex: 1,
-  },
-  name: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 4,
-  },
-  email: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 2,
-  },
-  phone: {
-    fontSize: 14,
-    color: '#666',
-  },
-  location: {
-    fontSize: 14,
-    color: '#666',
-  },
-  section: {
-    marginBottom: 20,
-  },
+  profileInfo: { flex: 1 },
+  name: { fontSize: 20, fontWeight: 'bold', color: '#333', marginBottom: 4 },
+  email: { fontSize: 14, color: '#666', marginBottom: 2 },
+  phone: { fontSize: 14, color: '#666' },
+  location: { fontSize: 14, color: '#666' },
+  section: { marginBottom: 20 },
   sectionHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2e7d32',
-  },
+  sectionTitle: { fontSize: 18, fontWeight: 'bold', color: '#2e7d32' },
   educationCard: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
+    flexDirection: 'row', alignItems: 'flex-start', backgroundColor: '#fff',
+    padding: 16, borderRadius: 8, marginBottom: 8,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1, shadowRadius: 3, elevation: 2,
   },
-  educationInfo: {
-    marginLeft: 12,
-    flex: 1,
-  },
-  educationTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 4,
-  },
-  educationInstitution: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 2,
-  },
-  educationPeriod: {
-    fontSize: 12,
-    color: '#999',
-  },
-  skillsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 8,
-  },
+  educationInfo: { marginLeft: 12, flex: 1 },
+  educationTitle: { fontSize: 16, fontWeight: 'bold', color: '#333', marginBottom: 4 },
+  educationInstitution: { fontSize: 14, color: '#666', marginBottom: 2 },
+  educationPeriod: { fontSize: 12, color: '#999' },
+  skillsContainer: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   skillTag: {
-    backgroundColor: '#e8f5e8',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 16,
-    fontSize: 12,
-    color: '#2e7d32',
-    fontWeight: '500',
+    backgroundColor: '#e8f5e8', paddingHorizontal: 12, paddingVertical: 6,
+    borderRadius: 16, fontSize: 12, color: '#2e7d32', fontWeight: '500',
   },
   preferenceCard: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    backgroundColor: '#fff', padding: 16, borderRadius: 12,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1, shadowRadius: 4, elevation: 3,
   },
-  preferenceItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  preferenceLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    width: 80,
-    marginLeft: 8,
-  },
-  preferenceValue: {
-    fontSize: 14,
-    color: '#666',
-    flex: 1,
-  },
+  preferenceItem: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
+  preferenceLabel: { fontSize: 14, fontWeight: '600', color: '#333', width: 80, marginLeft: 8 },
+  preferenceValue: { fontSize: 14, color: '#666', flex: 1 },
   menuItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 2,
+    flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff',
+    padding: 16, borderRadius: 8, marginBottom: 8,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1, shadowRadius: 3, elevation: 2,
   },
-  menuText: {
-    fontSize: 16,
-    color: '#333',
-    marginLeft: 12,
-    flex: 1,
+  menuText: { fontSize: 16, color: '#333', marginLeft: 12, flex: 1 },
+  logoutButton: { backgroundColor: '#f5f5f5', borderWidth: 1, borderColor: '#e0e0e0' },
+  logoutText: { color: '#f44336', fontWeight: '600' },
+  feedbackContainer: {
+    backgroundColor: '#fff', padding: 16, borderRadius: 8, marginBottom: 8,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1, shadowRadius: 3, elevation: 2,
   },
-  logoutButton: {
-    backgroundColor: '#f5f5f5',
-    borderWidth: 1,
-    borderColor: '#e0e0e0',
+  feedbackLabel: { fontSize: 16, fontWeight: '600', color: '#2e7d32', marginBottom: 8 },
+  feedbackInput: {
+    height: 100, borderColor: '#ccc', borderWidth: 1, borderRadius: 8,
+    padding: 10, textAlignVertical: 'top', marginBottom: 10,
   },
-  logoutText: {
-    color: '#f44336',
-    fontWeight: '600',
+  submitButton: {
+    backgroundColor: '#2e7d32', paddingVertical: 10, borderRadius: 8, alignItems: 'center',
   },
+  submitButtonText: { color: '#fff', fontWeight: '600', fontSize: 16 },
 });
