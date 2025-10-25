@@ -15,6 +15,7 @@ import {
 export default function Register() {
   const router = useRouter();
 
+  const [userType, setUserType] = useState<"Farmer" | "Youth">("Youth"); // added user type
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,12 +33,16 @@ export default function Register() {
     }
 
     // Mock registration success
-    Alert.alert("Success", "Account created successfully!", [
-      {
-        text: "OK",
-        onPress: () => router.push("/src/auth/login"),
-      },
-    ]);
+    Alert.alert(
+      "Success",
+      `Account created successfully!\nUser Type: ${userType}`,
+      [
+        {
+          text: "OK",
+          onPress: () => router.push("/src/auth/login"),
+        },
+      ]
+    );
   };
 
   return (
@@ -53,6 +58,44 @@ export default function Register() {
         <Text style={styles.subtitle}>Join AgriSmart today!</Text>
 
         <View style={styles.inputContainer}>
+          {/* User Type Selection */}
+          <Text style={styles.label}>User Type</Text>
+          <View style={styles.userTypeContainer}>
+            <TouchableOpacity
+              style={[
+                styles.userTypeBtn,
+                userType === "Youth" && styles.userTypeSelected,
+              ]}
+              onPress={() => setUserType("Youth")}
+            >
+              <Text
+                style={[
+                  styles.userTypeText,
+                  userType === "Youth" && styles.userTypeSelectedText,
+                ]}
+              >
+                Youth
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[
+                styles.userTypeBtn,
+                userType === "Farmer" && styles.userTypeSelected,
+              ]}
+              onPress={() => setUserType("Farmer")}
+            >
+              <Text
+                style={[
+                  styles.userTypeText,
+                  userType === "Farmer" && styles.userTypeSelectedText,
+                ]}
+              >
+                Farmer
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           <Text style={styles.label}>Username</Text>
           <TextInput
             style={styles.input}
@@ -167,5 +210,33 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: "center",
     marginTop: 15,
+  },
+
+  // New User Type Styles
+  userTypeContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 15,
+  },
+  userTypeBtn: {
+    flex: 1,
+    paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: "#66bb6a",
+    borderRadius: 10,
+    marginHorizontal: 5,
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  userTypeSelected: {
+    backgroundColor: "#2e7d32",
+  },
+  userTypeText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#2e7d32",
+  },
+  userTypeSelectedText: {
+    color: "#fff",
   },
 });
